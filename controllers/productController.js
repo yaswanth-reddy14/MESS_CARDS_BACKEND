@@ -25,7 +25,7 @@ const addProduct = async (req, res) => {
 
 
             if (!firm) {
-                return res.status(404).json({ error: "Firm not found found" });
+                return res.status(404).json({ error: "Firm not found" });
             } 
             
             const product =new  Product({
