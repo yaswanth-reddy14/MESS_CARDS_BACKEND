@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Product = require('./product');
 
 const firmSchema = new mongoose.Schema({
-    firmName: {
+    mess_Name: {
         type: String,
         required: true,
         unique: true
@@ -11,13 +11,9 @@ const firmSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category: {
-        type: [String], // Changed from array of objects to an array of strings
-        enum: ['veg', 'non-veg']
-    },
-    region: {
-        type: [String], // Changed from array of objects to an array of strings
-        enum: ['andhra Meals', 'Tamil Sappadu', 'North Indian Thali', 'Kerala Sadya']
+    mess_Address :{
+        type: String,
+        required: true
     },
     offer: {
         type: String

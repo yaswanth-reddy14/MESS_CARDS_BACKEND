@@ -1,21 +1,21 @@
 const express = require('express');
 const firmController = require('../controllers/firmController');
 const verifyToken = require('../middlewares/verifyToken');
+const path = require('path'); // You forgot to import 'path'!
 
+const router = express.Router();
 
-const router = express.Router()
-
-
+// Route to add or update a firm
 router.post('/add-firm', verifyToken, firmController.addFirm);
 
-router.get('/uploads/:imageName', (req, res)=>{
+// Route to serve uploaded images
+router.get('/uploads/:imageName', (req, res) => {
     const imageName = req.params.imageName;
-    res.headersSent('Content-Type', 'image/jpeg');
-    res.sendFile(path.join(__dirname, '..','uploads', imageName));
-
+    res.setHeader('Content-Type', 'image/jpeg'); // Corrected: should be setHeader, not headersSent
+    res.sendFile(path.join(__dirname, '..', 'uploads', imageName));
 });
 
-router.delete('/:firmId',firmController.deleteFirmById);
-
+// Route to delete a firm by ID
+router.delete('/:firmId', firmController.deleteFirmById);
 
 module.exports = router;

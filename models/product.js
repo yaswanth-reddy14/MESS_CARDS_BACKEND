@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-    productName: {
+    product_Name: {
         type: String,
         required: true
     },
@@ -24,6 +24,11 @@ const productSchema = new mongoose.Schema({
     },
     bestseller: {
         type: String
+    },
+    mealType: {
+        type: String,
+        enum: ['breakfast', 'lunch', 'dinner'], // Added mealType
+        required: true
     },
     firm: [{
         type: mongoose.Schema.Types.ObjectId,
