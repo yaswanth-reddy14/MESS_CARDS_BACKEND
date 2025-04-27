@@ -16,7 +16,7 @@ const upload = multer({ storage: storage });
 
 const addOrUpdateFirm = async (req, res) => {
     try {
-        const { mess_Name, area, mess_Address, offer } = req.body;
+        const { messName, area, address, contact } = req.body;
         const image = req.file ? req.file.filename : undefined;
 
         const vendor = await Vendor.findById(req.vendorId);
@@ -25,13 +25,12 @@ const addOrUpdateFirm = async (req, res) => {
         }
 
         
-        let firm = await Firm.findOne({ mess_Name });
+        let firm = await Firm.findOne({ messName });
 
         if (firm) {
             
             firm.area = area || firm.area;
-            firm.mess_Address = mess_Address || firm.mess_Address;
-            firm.offer = offer || firm.offer;
+            firm.address = address || firm.address;
             if (image) firm.image = image; 
             if (!firm.vendor.includes(vendor._id)) {
                 firm.vendor.push(vendor._id); 
@@ -43,10 +42,10 @@ const addOrUpdateFirm = async (req, res) => {
         } else {
             
             const newFirm = new Firm({
-                mess_Name,
+                messName,
                 area,
-                mess_Address,
-                offer,
+                address,
+                contact,
                 image,
                 vendor: vendor._id
             });

@@ -1,10 +1,13 @@
-const vendorcontroller = require('../controllers/vendorController');  
 const express = require('express');
-const router = express.Router(); 
+const router = express.Router();
 
-router.post('/register', vendorcontroller.vendorRegister);
-router.post('/login', vendorcontroller.vendorLogin);   
-router.get('/all-vendors', vendorcontroller.getAllVendors); 
-router.get('/single-vendor/:id', vendorcontroller.getVendorById); 
-    
+// Import controller
+const vendorController = require('../controllers/vendorController');
+
+// Routes
+router.post('/register', vendorController.vendorRegister);
+router.post('/login', vendorController.vendorLogin);
+router.get('/all-vendors', vendorController.getAllVendors);
+router.get('/single-vendor/:id', vendorController.getVendorById);
+
 module.exports = router;
