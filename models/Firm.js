@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Product = require('./product');
 
 const firmSchema = new mongoose.Schema({
-    messName: {   // changed from mess_Name to messName
+    mess_Name: {
         type: String,
         required: true,
         unique: true
@@ -11,13 +11,12 @@ const firmSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: git {  // changed from mess_Address to address
+    mess_Address :{
         type: String,
         required: true
     },
-    contact: {  // added new field contact
-        type: String,
-        required: true
+    offer: {
+        type: String
     },
     image: {
         type: String
@@ -26,14 +25,12 @@ const firmSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Vendor',
-        }
-    ],
-    products: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product'
-        }
-    ]
+            
+        }],
+        products: [{
+                type : mongoose.Schema.Types.ObjectId,
+                ref : 'Product'
+            }]
 });
 
 const Firm = mongoose.model('Firm', firmSchema);
