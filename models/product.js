@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
     },
     mealType: {
         type: String,
-        enum: ['breakfast', 'lunch', 'dinner'], // Added mealType
+        enum: ['breakfast', 'lunch', 'dinner'], 
         required: true
     },
     firm: [{

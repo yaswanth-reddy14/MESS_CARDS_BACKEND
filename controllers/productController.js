@@ -19,7 +19,7 @@ const addProduct = async (req, res) => {
         const { product_Name, description, price, category, bestseller, mealType } = req.body;
         const image = req.file ? req.file.filename : undefined;
 
-        // Validate mealType
+        
         if (!['breakfast', 'lunch', 'dinner'].includes(mealType)) {
             return res.status(400).json({ error: "Invalid meal type. Must be 'breakfast', 'lunch', or 'dinner'" });
         }
@@ -38,7 +38,7 @@ const addProduct = async (req, res) => {
             bestseller,
             description,
             image,
-            mealType,  // Saving the mealType in the product
+            mealType,  
             firm: firm._id
         });
 
@@ -61,7 +61,7 @@ const getProductByFirm = async(req, res) => {
         if(!firm){
             return res.status(404).json({ error: "Firm not found" });
         }
-        const restaurantName = firm.mess_Name;  // Corrected this line to use firm.mess_Name
+        const restaurantName = firm.mess_Name;  
         const products = await Product.find({ firm: firmId });
 
         res.status(200).json({ restaurantName, products });

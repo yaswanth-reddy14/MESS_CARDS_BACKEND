@@ -1,7 +1,7 @@
 const Firm = require('../models/Firm');
 const Vendor = require('../models/Vendor');
 const multer = require('multer');
-const path = require('path'); // Don't forget to import path
+const path = require('path'); 
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -24,24 +24,24 @@ const addOrUpdateFirm = async (req, res) => {
             return res.status(404).json({ message: "Vendor not found" });
         }
 
-        // Check if a firm with same mess_Name already exists
+        
         let firm = await Firm.findOne({ mess_Name });
 
         if (firm) {
-            // Firm exists -> Update it
+            
             firm.area = area || firm.area;
             firm.mess_Address = mess_Address || firm.mess_Address;
             firm.offer = offer || firm.offer;
-            if (image) firm.image = image; // Update only if new image uploaded
+            if (image) firm.image = image; 
             if (!firm.vendor.includes(vendor._id)) {
-                firm.vendor.push(vendor._id); // Add vendor if not already linked
+                firm.vendor.push(vendor._id); 
             }
 
             await firm.save();
             return res.status(200).json({ message: "Firm updated successfully" });
 
         } else {
-            // Firm does not exist -> Create new
+            
             const newFirm = new Firm({
                 mess_Name,
                 area,
