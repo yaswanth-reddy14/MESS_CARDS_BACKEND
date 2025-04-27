@@ -1,8 +1,9 @@
 const Firm = require('../models/Firm');
 const Vendor = require('../models/Vendor');
 const multer = require('multer');
-const path = require('path'); 
+const path = require('path');
 
+// Setup multer storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'uploads/'); 
@@ -14,6 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Add or update a firm
 const addOrUpdateFirm = async (req, res) => {
     try {
         const { messName, area, address, contact } = req.body;
@@ -24,14 +26,16 @@ const addOrUpdateFirm = async (req, res) => {
             return res.status(404).json({ message: "Vendor not found" });
         }
 
-        
-        let firm = await Firm.findOne({ messName });
+        // Check if a firm with the same mess name exists
+        let firm = await Firm.findOne({ mess_Name: messName });
 
         if (firm) {
-            
+            // Update existing firm
             firm.area = area || firm.area;
-            firm.address = address || firm.address;
-            if (image) firm.image = image; 
+            firm.mess_Address = address || firm.mess_Address;
+            firm.contact = contact || firm.contact;
+            if (image) firm.image = image;
+
             if (!firm.vendor.includes(vendor._id)) {
                 firm.vendor.push(vendor._id); 
             }
@@ -40,14 +44,14 @@ const addOrUpdateFirm = async (req, res) => {
             return res.status(200).json({ message: "Firm updated successfully" });
 
         } else {
-            
+            // Create a new firm
             const newFirm = new Firm({
-                messName,
+                mess_Name: messName,
                 area,
-                address,
+                mess_Address: address,
                 contact,
                 image,
-                vendor: vendor._id
+                vendor: [vendor._id]
             });
 
             await newFirm.save();
@@ -60,6 +64,7 @@ const addOrUpdateFirm = async (req, res) => {
     }
 };
 
+// Delete firm by ID
 const deleteFirmById = async (req, res) => {
     try {
         const firmId = req.params.firmId;
