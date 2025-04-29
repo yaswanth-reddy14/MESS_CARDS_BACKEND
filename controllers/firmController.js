@@ -29,7 +29,7 @@ const addOrUpdateFirm = async (req, res) => {
         // Check if a firm with the same mess name exists
         let firm = await Firm.findOne({ mess_Name: messName });
 
-        if (firm) {
+        if (firm)    {
             // Update existing firm
             firm.area = area || firm.area;
             firm.mess_Address = address || firm.mess_Address;
@@ -41,7 +41,10 @@ const addOrUpdateFirm = async (req, res) => {
             }
 
             await firm.save();
-            return res.status(200).json({ message: "Firm updated successfully" });
+            return res.status(200).json({
+                message: "Firm updated successfully",
+                firmId: firm._id  // Sending firmId as part of the response
+            });
 
         } else {
             // Create a new firm
@@ -53,9 +56,15 @@ const addOrUpdateFirm = async (req, res) => {
                 image,
                 vendor: [vendor._id]
             });
+            const firmId = newFirm._id;
+            vendor.firm.push(firmId)
+            
 
             await newFirm.save();
-            return res.status(201).json({ message: "Firm added successfully" });
+            return res.status(201).json({
+                message: "Firm added successfully",
+                firmId: newFirm._id  // Sending firmId as part of the response
+            });
         }
 
     } catch (error) {

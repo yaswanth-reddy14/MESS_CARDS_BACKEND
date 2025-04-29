@@ -42,7 +42,7 @@ const vendorLogin = async(req, res) => {
         if(!vendor ||!(await bcrypt.compare(password,vendor.password))){
             return res.status(401).json({error : "Invalid credentials"})
     }
-    const token = jwt.sign({vendorId : vendor._id }, secretkey, {expiresIn: '1h'})
+    const token = jwt.sign({vendorId : vendor._id }, secretkey)
 
 
     res.status(200).json({success: "Login Success",token})

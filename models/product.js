@@ -5,10 +5,6 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
-        type: String,
-        required: true
-    },
     price: {
         type: String,
         required: true
@@ -17,23 +13,21 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     category: {
-        type: [{
-            type: String,
-            enum: ['veg', 'non-veg']
-        }]
-    },
-    bestseller: {
-        type: String
+        type: String,
+        enum: ['Veg', 'Non-Veg']
+
     },
     mealType: {
-        type: String,
-        enum: ['breakfast', 'lunch', 'dinner'], 
-        required: true
+       type: String,
+       enum: ['breakfast', 'lunch', 'dinner'], 
+       required: true
     },
-    firm: [{
+    firm: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Firm'
-    }]
+        ref: 'Firm',
+        required: true
+      }
+      
 });
 
 const Product = mongoose.model('Product', productSchema);

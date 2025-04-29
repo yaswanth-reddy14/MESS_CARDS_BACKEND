@@ -15,7 +15,7 @@ const firmSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    offer: {
+    contact: {
         type: String
     },
     image: {
