@@ -25,7 +25,7 @@ app.use('/vendor', vendorRoutes);
 app.use('/firm', firmRoutes);
 app.use('/product', productRoutes);
 
-// Default route (should be LAST)
+
 
 // Start server
 app.listen(PORT, () => {

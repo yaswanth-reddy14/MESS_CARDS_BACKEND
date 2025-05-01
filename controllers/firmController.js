@@ -6,7 +6,7 @@ const path = require('path');
 // Setup multer storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); 
+        cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -29,7 +29,7 @@ const addOrUpdateFirm = async (req, res) => {
         // Check if a firm with the same mess name exists
         let firm = await Firm.findOne({ mess_Name: messName });
 
-        if (firm)    {
+        if (firm) {
             // Update existing firm
             firm.area = area || firm.area;
             firm.mess_Address = address || firm.mess_Address;
@@ -37,15 +37,14 @@ const addOrUpdateFirm = async (req, res) => {
             if (image) firm.image = image;
 
             if (!firm.vendor.includes(vendor._id)) {
-                firm.vendor.push(vendor._id); 
+                firm.vendor.push(vendor._id);
             }
 
             await firm.save();
             return res.status(200).json({
                 message: "Firm updated successfully",
-                firmId: firm._id  // Sending firmId as part of the response
+                firmId: firm._id
             });
-
         } else {
             // Create a new firm
             const newFirm = new Firm({
@@ -56,14 +55,16 @@ const addOrUpdateFirm = async (req, res) => {
                 image,
                 vendor: [vendor._id]
             });
-            const firmId = newFirm._id;
-            vendor.firm.push(firmId)
-            
 
-            await newFirm.save();
+            const savedFirm = await newFirm.save();
+
+            // Link firm to vendor
+            vendor.firm.push(savedFirm._id);
+            await vendor.save();
+
             return res.status(201).json({
                 message: "Firm added successfully",
-                firmId: newFirm._id  // Sending firmId as part of the response
+                firmId: savedFirm._id
             });
         }
 
@@ -73,11 +74,24 @@ const addOrUpdateFirm = async (req, res) => {
     }
 };
 
+// Get all firms added by a vendor
+const getFirmsByVendor = async (req, res) => {
+    try {
+        const vendorId = req.vendorId; // comes from verifyToken middleware
+        const firms = await Firm.find({ vendor: vendorId });
+        res.status(200).json(firms);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not fetch firms" });
+    }
+};
+
 // Delete firm by ID
 const deleteFirmById = async (req, res) => {
     try {
         const firmId = req.params.firmId;
         const deletedFirm = await Firm.findByIdAndDelete(firmId);
+
         if (!deletedFirm) {
             return res.status(404).json({ error: "Firm not found" });
         }
@@ -91,5 +105,6 @@ const deleteFirmById = async (req, res) => {
 
 module.exports = {
     addFirm: [upload.single('image'), addOrUpdateFirm],
+    getFirmsByVendor,
     deleteFirmById
 };
