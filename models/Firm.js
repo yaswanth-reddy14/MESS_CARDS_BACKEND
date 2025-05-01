@@ -5,7 +5,7 @@ const firmSchema = new mongoose.Schema({
     mess_Name: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     area: {
         type: String,
@@ -34,6 +34,5 @@ const firmSchema = new mongoose.Schema({
 });
 
 const Firm = mongoose.model('Firm', firmSchema);
+
 module.exports = Firm;
-
-
