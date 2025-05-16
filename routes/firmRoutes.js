@@ -19,3 +19,6 @@ router.get('/uploads/:imageName', (req, res) => {
 router.delete('/:firmId', firmController.deleteFirmById);
 
 module.exports = router;
+
+
+//nougyivh kmfpio//
